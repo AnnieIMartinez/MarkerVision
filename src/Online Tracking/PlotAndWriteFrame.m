@@ -1,19 +1,22 @@
-function PlotAndWriteFrame()
+function PlotAndWriteFrame(Q,vwrite)
 
 if Q.QueueLength > 0
 
 	plot_datas = poll(Q); 
+	thisFrame = plot_datas.img;
+	
+	
 	figure(10)
     imshow(thisFrame)
     set(gcf, 'Position',  [100, 100, 1000, 1000])
     hold on
             
     %Plot markers on the robot
-    plot(obj.PrevPt(:,1),1080-obj.PrevPt(:,2),'g*','LineWidth',0.5,'MarkerSize',2)
+    plot(PrevPt(:,1),1080-PrevPt(:,2),'g*','LineWidth',0.5,'MarkerSize',2)
 %   plot(obj.tracking_data_centroids(k,1),1080-obj.tracking_data_centroid(k,2),'g*','LineWidth',0.5,'MarkerSize',2)
      
     %Plot centroid of the robot
-    plot(obj.robo_centroid(:,1),1080-obj.robo_centroid(:,2),'c*','LineWidth',2.5,'MarkerSize',2)
+    plot(robo_centroid(:,1),1080-robo_centroid(:,2),'c*','LineWidth',2.5,'MarkerSize',2)
             
     %Plot path planner trajectory
 %    plot(obj.trajectory_position(1,:)*obj.pixel_to_cm,1080-(obj.trajectory_position(2,:)*obj.pixel_to_cm),'-r','LineWidth',2);
@@ -42,7 +45,7 @@ if Q.QueueLength > 0
     axis on;
     hold off
     pframe = getframe(gcf);
-    writeVideo(obj.vwrite,pframe);
+    writeVideo(vwrite,pframe);
 	
 end
 
