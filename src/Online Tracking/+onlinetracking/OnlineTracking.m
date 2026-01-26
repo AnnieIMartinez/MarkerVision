@@ -1,29 +1,76 @@
+%==============================================================================
+% Class Name: OnlineTracking.m
+% Author: Arun Niddish Mahendran
+% Last modified date: 2024-MM-DD
+% Description: This class provides methods for tracking markers on a robot 
+%              in real time based on color and size filters, nearest neighbor 
+%              algorithm for consistent indexing of markers, reconstruction 
+%              of markers when occluded, for calculating rotation and
+%              translation of the robot in both global and body frame, data
+%              logging, plots of markers overlaid on video at respective
+%              frames.
+%
+% Dependencies:
+% 1) createMaskXXXX.m
+% 2) rigid_transform_3D.m
+%=============================================================================
+
 classdef OnlineTracking
 
+    % MyClass - Brief description of the class
+    % Detailed description of the class and its purpose.
+
     properties
+
+        % Inputs for number of markers
         number_of_markers;
+
+        % Centroid of each markers
         centroids;
+
+        % Centroid of each marker((n-1)th frame)
         PrevPt;
+
+        % Centroid of each marker(1st frame)
         P0;
+
+        % Centroid of each marker in the current frame (nth frame)
         CurrPt;
+
+        %
         cent;
+
+        
         tracking_data_centroid; % Added
 
-        vread;
-        numberOfFrames;
+        %vread;
+        %numberOfFrames;
+        
+        % Variable holding properies of animated video
         vwrite;
 
-        overlay_image;
-        overlay;
+        % overlay_image;
+        % overlay;
 
-        robo_centroid;
+        robot_centroid;
         pixel_to_cm;
-        robo_rotated;
+        robot_rotated;
     end
 
     methods
 
         function obj = OnlineTracking(params)
+
+            % OnlineTracking - Constructor for the class OfflineTracking
+            %
+            % Syntax: obj = OnlineTracking(input1)
+            %
+            % Inputs:
+            %    input1 - 'params' a structure containing the parameters for initialization
+            %
+            % Outputs:
+            %    obj - An instance of the class OnlineTracking
+            
             obj.number_of_markers = params.number_of_markers;
             obj.PrevPt = [];
             obj.P0 = [];
@@ -31,18 +78,18 @@ classdef OnlineTracking
             obj.cent = [];
             obj.tracking_data_centroid = [];  % Added
             %             obj.vread = params.vread;
-            obj.numberOfFrames = 1;
+            % obj.numberOfFrames = 1;
             obj.vwrite = params.vwrite_tracked;
-            obj.centroids = zeros(obj.numberOfFrames,3*obj.number_of_markers);
+            % obj.centroids = zeros(obj.numberOfFrames,3*obj.number_of_markers);
             %             obj.overlay_image = params.overlay_img_cut;
             obj.overlay = params.overlay;
-            obj.stop_radius = params.stop_radius;
-            obj.target_position = params.target_position;
-            obj.obstaclesBB = params.obstaclesBB;
-            obj.robo_centroid = [];
+            % obj.stop_radius = params.stop_radius;
+            % obj.target_position = params.target_position;
+            % obj.obstaclesBB = params.obstaclesBB;
+            obj.robot_centroid = [];
             % obj.trajectory_position = [];
             obj.pixel_to_cm = params.pixel_to_cm;
-            obj.robo_rotated = [];
+            obj.robot_rotated = [];
         end
 
         function [output] = tracking(obj,thisFrame,PrevPt,P0,robo_centroid,k)
