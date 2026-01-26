@@ -4,8 +4,6 @@
 % Last modified date: 2024-MM-DD
 % Description: Briefly describe what this script does.
 % Inputs:
-% 1) "input_vid_dir": Path to directory of the video to be
-%                     tracked.
 %
 % 2) "vid_name"     : Video's name with the extension to be
 %                     tracked.
@@ -13,6 +11,7 @@
 % 3) "output_vid_filename" : Specify any name with the extension
 %                            to save the animation of tracked
 %                            file
+%
 % 4) "params.number_of_markers" : Number of markers on the body 
 %                                 to be tracked
 %
