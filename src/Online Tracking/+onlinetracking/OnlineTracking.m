@@ -113,7 +113,7 @@ classdef OnlineTracking
             obj.P0 = P0;
             obj.robot_centroid = robot_centroid;
             obj.theta_curr = theta_curr;
-            newim = functions.createMaskhdblue(thisFrame);
+            newim = functions.createMask(thisFrame);
             newim = bwareaopen(newim,25);
             newim = imfill(newim, 'holes');
 
@@ -123,6 +123,7 @@ classdef OnlineTracking
             obj.cent = zeros(numberOfRegions,2);
 
             stats = regionprops(labeledImage, 'BoundingBox','Centroid','Area','EquivDiameter');
+            
             for rb = 1:numberOfRegions
                 count = count + 1;
                 obj.cent(count,:) = stats(rb).Centroid;

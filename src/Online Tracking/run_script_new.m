@@ -1,4 +1,4 @@
-%==========================================================================================================================
+%===========================================================================================================================================
 % Script Name: run_script.m
 % Author: Arun Niddish Mahendran
 % Last modified date: 2024-MM-DD
@@ -27,7 +27,7 @@
 %
 % 4) "createMaskhdblue.m" : Function to create binary mask for segmenting blue markers at 1920x1080 resolution.
 %
-% The data are in the following order:
+% The data for 4 markers are in the following order:
 % 1 to 3 [1x3] Marker 1 [x,y,z]
 % 4 to 6 [1x3] Marker 2 [x,y,z]
 % 7 to 9 [1x3] Marker 3 [x,y,z]
@@ -37,7 +37,7 @@
 % 25 to 33 [1x9] Rotation matrix Global frame [Reshaped from 3x3 to 1x9]
 % 34 to 36 [1x3] Translation Matrix Global frame [[x,y,z]Reshaped from 3x1 to 1x3]
 % 37 [1x1] Timestamp
-%============================================================================================================================
+%=============================================================================================================================================
 
 clear all;
 clc;
@@ -51,7 +51,7 @@ params.vwrite_tracked = VideoWriter(output_vid_filename,'MPEG-4');
 open(params.vwrite_tracked);
 
 % Tracking parameters
-params.number_of_markers = 4;
+params.number_of_markers = 6;
 
 % Choose overlay image (Yes/No - 1/0)
 params.overlay = 0;
@@ -76,7 +76,7 @@ input('Press <Enter> to start');
 % Check 1st frame for marker visibility
 if choose_cam == 1
     first_frame = snapshot(cam);
-    first_frame = functions.createMaskhdblue(first_frame);
+    first_frame = functions.createMask(first_frame);
     first_frame = bwareaopen(first_frame,25);
     first_frame = imfill(first_frame, 'holes');
     [labeledImage, numberOfRegions] = bwlabel(first_frame);
@@ -165,7 +165,7 @@ while true
         idx = idx + 1;
         [output_data] = tracker_obj.tracking(newim, PrevPt, P0, robot_centroid, theta_curr, idx);
         tracking_data(idx,:) = [output_data.tracking_data(idx,:) ts];
-        PrevPt = reshape(output_data.tracking_data(idx,1:12),[3,4])';
+        PrevPt = reshape(output_data.tracking_data(idx,1:3*params.number_of_markers),[3,params.number_of_markers])';
         robot_centroid = output_data.robot_centroid;
         theta_curr = output_data.theta_curr;
         check(idx,:) = theta_curr;
