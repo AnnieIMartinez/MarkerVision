@@ -315,14 +315,14 @@ classdef OfflineTracking
             %              end
 
             % Plot Quiver - Coordinate system of the robot
-            rot_val = pi/2;
+            rot_val = 0;
             L = 100;
-            u = L*cos(obj.theta_curr(1)+rot_val);
-            v = L*sin(obj.theta_curr(1)+rot_val);
-            u_bar = L*cos(obj.theta_curr(1)+rot_val+pi/2);
-            v_bar = L*sin(obj.theta_curr(1)+rot_val+pi/2);
-            quiver(obj.robot_centroid(k,1),obj.robot_centroid(k,2),u,,'LineWidth',1.7,'Color','b','MvaxHeadSize',0.7);
-            quiver(obj.robot_centroid(k,1),obj.robot_centroid(k,2),u_bar,v_bar,'LineWidth',1.7,'Color','g','MaxHeadSize',0.7);
+            u = L*cos(obj.theta_curr(1) + rot_val);
+            v = L*sin(obj.theta_curr(1) + rot_val);
+            u_bar = L*cos(obj.theta_curr(1)+rot_val - pi/2);
+            v_bar = L*sin(obj.theta_curr(1)+rot_val - pi/2);
+            quiver(obj.robot_centroid(k,1),1080 - obj.robot_centroid(k,2),u,v,'LineWidth',1.7,'Color','b','MaxHeadSize',0.7);
+            quiver(obj.robot_centroid(k,1),1080 - obj.robot_centroid(k,2),u_bar,v_bar,'LineWidth',1.7,'Color','g','MaxHeadSize',0.7);
 
             caption = sprintf('%d blobs found in frame #%d 0f %d', count, k, obj.numberOfFrames);
             title(caption, 'FontSize', 20);
