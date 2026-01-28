@@ -36,12 +36,13 @@ classdef OfflineTracking
         % Centroid of each marker in the current frame (nth frame)
         CurrPt;
         
-        %
+        % Centroid of each marker in the current frame
         cent;
         
         % Overall centroid of the robot
         robot_centroid;
 
+        % Current orientation of the robot
         theta_curr;
 
         overlay;
@@ -320,7 +321,7 @@ classdef OfflineTracking
             v = L*sin(obj.theta_curr(1)+rot_val);
             u_bar = L*cos(obj.theta_curr(1)+rot_val+pi/2);
             v_bar = L*sin(obj.theta_curr(1)+rot_val+pi/2);
-            quiver(obj.robot_centroid(k,1),obj.robot_centroid(k,2),u,v,'LineWidth',1.7,'Color','b','MaxHeadSize',0.7);
+            quiver(obj.robot_centroid(k,1),obj.robot_centroid(k,2),u,,'LineWidth',1.7,'Color','b','MvaxHeadSize',0.7);
             quiver(obj.robot_centroid(k,1),obj.robot_centroid(k,2),u_bar,v_bar,'LineWidth',1.7,'Color','g','MaxHeadSize',0.7);
 
             caption = sprintf('%d blobs found in frame #%d 0f %d', count, k, obj.numberOfFrames);

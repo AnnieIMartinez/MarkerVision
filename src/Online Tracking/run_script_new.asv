@@ -88,7 +88,6 @@ if choose_cam == 1
     figure;
     imshow(first_frame);
     hold on;
-
     % Centroid
     plot(cent(:,1),1080 - cent(:,2),'r*','MarkerSize',10,'LineWidth',2);
     % Bounding box
@@ -112,7 +111,7 @@ if choose_cam == 1
     if numberOfRegions == params.number_of_markers
         disp('All markers are visible and segmented. Proceeding with tracking if you think these are the intended markers.');
     end
-    disp('Press any key to continue');
+    disp('Press any key to cont')
     pause;
 end
 
@@ -121,7 +120,7 @@ clear cam;
 
 pause(2);
 
-%[] Initilaize object for online tracking
+% Initilaize object for online tracking
 addpath(pwd);
 tracker_obj = onlinetracking.OnlineTracking(params);
 PrevPt = [];
@@ -136,6 +135,8 @@ tracking_data = [];
 % are not that significant.
 % distortion = load('cameraParams.mat');
 
+%[] Initilaize object for online tracking
+
 %[] Initialize Parallel Processing --> parfeval-(f)
 parpool('local',1); % It is better if number of pools opened is equal to number of asynchronous function running
 
@@ -147,7 +148,7 @@ f_1 = parfeval(@getFrameFromCamera, 0, P, vid_name);
 
 pause(2);
 
-% input('Press <Enter> to start');
+input('Press <Enter> to start');
 
 idx = 0;
 
@@ -164,7 +165,6 @@ while true
         PrevPt = reshape(output_data.tracking_data(idx,1:12),[3,4])';
         robot_centroid = output_data.robot_centroid;
         theta_curr = output_data.theta_curr;
-        check(idx,:) = theta_curr;
 
         if idx == 1
             P0 = output_data.P0;

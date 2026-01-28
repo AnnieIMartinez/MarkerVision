@@ -18,7 +18,7 @@ while true
     cam_data.img = img;
     cam_data.time_stamp = ts;
 
-    if ii == 1 || mod(ii,5) == 0
+    if ii == 1 || mod(ii,10) == 0
         cam_length = cam_length + 1;
         send(P,cam_data);
         % send(L,cam_length);
